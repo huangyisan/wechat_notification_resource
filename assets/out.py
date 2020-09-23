@@ -1,7 +1,24 @@
+#!/usr/bin/python
+# import json
+# import sys
+# import time
+#
+# def get_timestamp():
+#     return str(int(time.time()))
+#
+# def _check():
+#     timestamp = get_timestamp()
+#     return {"version": {"version": get_timestamp()}}
+#
+# if __name__ == "__main__":
+#     print(json.dumps(_check()))
+
+
 import json
 import sys
 import requests
 import time
+from pprint import pprint
 
 
 def get_time():
@@ -14,12 +31,13 @@ def get_args(stream):
 
 
 def payload_data(payload):
-    source = payload["params"]
-    url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send" if not source["url"] else source["url"]
-    secret = payload["secret"]
-    msgtype = "markdown" if not source["msgtype"] else source["msgtype"]
+    source = payload["source"]
+    # source = payload["params"]
+    url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send" if not source.get("url") else source.get("url")
+    secret = source["secret"]
+    msgtype = "markdown" if not source.get("msgtype") else source.get("msgtype")
     # success, failed, abort
-    level = "success" if not source["level"] else source["level"]
+    level = "success" if not source.get("level") else source.get("level")
     # pipeline name
     pipeline = source["pipeline"]
     payload_dict = {"url": url, "secret": secret, "msgtype": msgtype, "level": level, "pipeline": pipeline}
@@ -34,7 +52,6 @@ def get_title_info(level):
         title_info = "<font color=\"warning\">Job Failed</font>"
     elif level.lower() == "abort":
         title_info = "<font color=\"comment\">Job Abort</font>"
-    title_info += "\n"
     return title_info
 
 
@@ -46,16 +63,15 @@ def message(msgtype, pipeline, level):
         }
     }
 
-    base_content_info = \
-    '''
-    >**事件详情**
-    >时 间：<font color=\"info\">{time}</font>
-    >Pipeline：`{pipeline}`
-    '''.format(time=get_time(), pipeline=pipeline)
+    base_content_info = '''
+>**事件详情**
+>时 间：<font color=\"info\">{time}</font>
+>Pipeline：`{pipeline}`
+'''.format(time=get_time(), pipeline=pipeline)
 
     content = base_content_info
 
-    message.get("markdown")["content"] = get_title_info(level) + content
+    message.get("markdown")["content"] = get_title_info(level) + "\n" + content
 
     return message
 
@@ -68,10 +84,14 @@ def post_message(url, secret, data):
     params = {
         "key": secret
     }
-
+    # pprint(type(data))
+    data = json.dumps(data)
+    # pprint(type(data))
     response = requests.request("POST", url, headers=headers, data=data, params=params)
+    # pprint(response.text, stream=sys.stderr)
     if response.status_code != 200:
         print(response.json())
+    # pprint(data, stream=sys.stderr)
     return {"version": {"version": data}}
 
 
