@@ -1,3 +1,5 @@
 #!/usr/bin/python
 import json
-print(json.dumps({"version":"1.0", "function": "in"}))
+import sys
+sys.stdout.write('this is in stage')
+print(json.dumps({"version": {"version": "in"}}))
