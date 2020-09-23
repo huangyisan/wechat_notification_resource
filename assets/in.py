@@ -84,14 +84,14 @@ def post_message(url, secret, data):
     params = {
         "key": secret
     }
-    pprint(type(data))
+    # pprint(type(data))
     data = json.dumps(data)
-    pprint(type(data))
+    # pprint(type(data))
     response = requests.request("POST", url, headers=headers, data=data, params=params)
-    pprint(response.text, stream=sys.stderr)
+    # pprint(response.text, stream=sys.stderr)
     if response.status_code != 200:
         print(response.json())
-    pprint(data, stream=sys.stderr)
+    # pprint(data, stream=sys.stderr)
     return {"version": {"version": data}}
 
 
