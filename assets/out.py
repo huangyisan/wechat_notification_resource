@@ -14,7 +14,7 @@ def get_args(stream):
 
 
 def payload_data(payload):
-    source = payload["source"]
+    source = payload["params"]
     url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send" if not source["url"] else source["url"]
     secret = payload["secret"]
     msgtype = "markdown" if not source["msgtype"] else source["msgtype"]
