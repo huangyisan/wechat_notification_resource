@@ -1,12 +1,14 @@
 #!/usr/bin/python
 import json
 import sys
+import time
+
 def _check(args):
-  source = {"url": "mongo", "port": "27017", "db": "test", "collection": "trigger", "find": ""}
-  ### LOGIC ###
-  print(json.load(args))
-  return [{"version":"2.0", "function": 11}] # value is something Json serializable
+  timestamp = get_timestamp()
+  return [{"version":timestamp, "stage": "check"}]
+
+def get_timestamp():
+  return str(int(time.time()))
 
 if __name__ == "__main__":
-  sys.stdout.write('check') 
-  print(json.dumps(_check(sys.stdin)))
+  print(json.dumps(_check()))
