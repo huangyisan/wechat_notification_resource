@@ -86,7 +86,9 @@ def post_message(url, secret, data):
     params = {
         "key": secret
     }
-
+    pprint(type(data))
+    data = json.dumps(data)
+    pprint(type(data))
     response = requests.request("POST", url, headers=headers, data=data, params=params)
     pprint(response.text, stream=sys.stderr)
     if response.status_code != 200:
