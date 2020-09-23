@@ -87,7 +87,7 @@ def post_message(url, secret, data):
         "key": secret
     }
     pprint(type(data))
-    data = json.dumps(data)
+    data = json.dumps(json.loads(json.dumps(data)))
     pprint(type(data))
     response = requests.request("POST", url, headers=headers, data=data, params=params)
     pprint(response.text, stream=sys.stderr)
