@@ -18,6 +18,7 @@ import json
 import sys
 import requests
 import time
+from pprint import pprint
 
 
 def get_time():
@@ -89,6 +90,7 @@ def post_message(url, secret, data):
     response = requests.request("POST", url, headers=headers, data=data, params=params)
     if response.status_code != 200:
         print(response.json())
+    pprint(data, stream=sys.stderr)
     return {"version": {"version": data}}
 
 
