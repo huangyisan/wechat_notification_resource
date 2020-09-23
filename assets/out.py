@@ -1,4 +1,3 @@
-#!/usr/bin/python
 import json
 import sys
 import requests
@@ -9,49 +8,83 @@ def get_time():
     return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
 
 
-pipeline = sys.argv[2]
+def get_args(stream):
+    payload = json.load(stream)
+    return payload
 
-base_info = {
-    "msgtype": "markdown",
-    "markdown": {
-        "content": ""
+
+def payload_data(payload):
+    source = payload["source"]
+    url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send" if not source["url"] else source["url"]
+    secret = payload["secret"]
+    msgtype = "markdown" if not source["msgtype"] else source["msgtype"]
+    # success, failed, abort
+    level = "success" if not source["level"] else source["level"]
+    # pipeline name
+    pipeline = source["pipeline"]
+    payload_dict = {"url": url, "secret": secret, "msgtype": msgtype, "level": level, "pipeline": pipeline}
+    return payload_dict
+
+
+def get_title_info(level):
+    title_info = ""
+    if level.lower() == "success":
+        title_info = "<font color=\"info\">Job Success</font>"
+    elif level.lower() == "failed":
+        title_info = "<font color=\"warning\">Job Failed</font>"
+    elif level.lower() == "abort":
+        title_info = "<font color=\"comment\">Job Abort</font>"
+    title_info += "\n"
+    return title_info
+
+
+def message(msgtype, pipeline, level):
+    message = {
+        "msgtype": msgtype,
+        "markdown": {
+            "content": ""
+        }
     }
-}
 
-base_content_info = '''
->**事件详情**
->时 间：<font color=\"info\">{time}</font>
->Pipeline：`{pipeline}`
-'''.format(time=get_time(), pipeline=pipeline)
+    base_content_info = \
+    '''
+    >**事件详情**
+    >时 间：<font color=\"info\">{time}</font>
+    >Pipeline：`{pipeline}`
+    '''.format(time=get_time(), pipeline=pipeline)
 
-level = sys.argv[1]
-title_info = ""
-if level.lower() == "success":
-    title_info = "<font color=\"info\">Job Success</font>"
-elif level.lower() == "failed":
-    title_info = "<font color=\"warning\">Job Failed</font>"
-elif level.lower() == "abort":
-    title_info = "<font color=\"comment\">Job Abort</font>"
+    content = base_content_info
 
-content = base_content_info
+    message.get("markdown")["content"] = get_title_info(level) + content
 
-base_info.get("markdown")["content"] = title_info + '\n' + content
+    return message
 
-url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send"
 
-params = {
-    "key": "3d1ecb4e-af78-4a92-9dd2-d8af4565c95a"
-}
+def post_message(url, secret, data):
+    headers = {
+        'Content-Type': 'text/plain'
+    }
 
-data = json.dumps(base_info)
+    params = {
+        "key": secret
+    }
 
-headers = {
-    'Content-Type': 'text/plain'
-}
+    response = requests.request("POST", url, headers=headers, data=data, params=params)
+    if response.status_code != 200:
+        print(response.json())
+    return [{"version":"1.0", "stage": "out"}]
 
-response = requests.request("POST", url, headers=headers, data=data, params=params)
-if response.status_code == 200:
-    pass
-else:
-    print(response.text)
 
+def _out(stream):
+
+    payload = get_args(stream)
+    payload_dict = payload_data(payload)
+
+    url, secret, msgtype, level, pipeline = payload_dict.values()
+
+    data = message(msgtype, pipeline, level)
+    post_message(url, secret, data)
+
+
+if __name__ == "__main__":
+    print(json.dumps(_out(sys.stdin)))
