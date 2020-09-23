@@ -33,7 +33,7 @@ def payload_data(payload):
     source = payload["source"]
     # source = payload["params"]
     url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send" if not source.get("url") else source.get("url")
-    secret = payload["secret"]
+    secret = source["secret"]
     msgtype = "markdown" if not source.get("msgtype") else source.get("msgtype")
     # success, failed, abort
     level = "success" if not source.get("level") else source.get("level")
