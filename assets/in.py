@@ -64,12 +64,10 @@ def message(msgtype, pipeline, level):
         }
     }
 
-    base_content_info = \
-    '''
+    base_content_info = '''
     >**事件详情**
     >时 间：<font color=\"info\">{time}</font>
-    >Pipeline：`{pipeline}`
-    '''.format(time=get_time(), pipeline=pipeline)
+    >Pipeline：`{pipeline}`'''.format(time=get_time(), pipeline=pipeline)
 
     content = base_content_info
 
@@ -87,7 +85,7 @@ def post_message(url, secret, data):
         "key": secret
     }
     pprint(type(data))
-    data = json.dumps(json.loads(json.dumps(data)))
+    data = json.dumps(data)
     pprint(type(data))
     response = requests.request("POST", url, headers=headers, data=data, params=params)
     pprint(response.text, stream=sys.stderr)
