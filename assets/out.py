@@ -72,7 +72,7 @@ def post_message(url, secret, data):
     response = requests.request("POST", url, headers=headers, data=data, params=params)
     if response.status_code != 200:
         print(response.json())
-    return [{"version":"1.0", "stage": "out"}]
+    return {"version": {"version": data}}
 
 
 def _out(stream):
