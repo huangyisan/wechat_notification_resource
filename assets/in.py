@@ -3,7 +3,7 @@ import json
 import sys
 import time
 
-def _check(args):
+def _check():
   timestamp = get_timestamp()
   return [{"version":timestamp, "stage": "in"}]
 
