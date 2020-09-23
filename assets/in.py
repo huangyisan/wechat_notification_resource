@@ -32,11 +32,11 @@ def get_args(stream):
 def payload_data(payload):
     source = payload["source"]
     # source = payload["params"]
-    url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send" if not source["url"] else source["url"]
+    url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send" if not source.get("url") else source.get("url")
     secret = payload["secret"]
-    msgtype = "markdown" if not source["msgtype"] else source["msgtype"]
+    msgtype = "markdown" if not source.get("msgtype") else source.get("msgtype")
     # success, failed, abort
-    level = "success" if not source["level"] else source["level"]
+    level = "success" if not source.get("level") else source.get("level")
     # pipeline name
     pipeline = source["pipeline"]
     payload_dict = {"url": url, "secret": secret, "msgtype": msgtype, "level": level, "pipeline": pipeline}
