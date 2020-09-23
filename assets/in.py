@@ -88,6 +88,7 @@ def post_message(url, secret, data):
     }
 
     response = requests.request("POST", url, headers=headers, data=data, params=params)
+    pprint(response.text, stream=sys.stderr)
     if response.status_code != 200:
         print(response.json())
     pprint(data, stream=sys.stderr)
