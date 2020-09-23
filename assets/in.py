@@ -52,7 +52,6 @@ def get_title_info(level):
         title_info = "<font color=\"warning\">Job Failed</font>"
     elif level.lower() == "abort":
         title_info = "<font color=\"comment\">Job Abort</font>"
-    title_info += "\n"
     return title_info
 
 
@@ -65,13 +64,14 @@ def message(msgtype, pipeline, level):
     }
 
     base_content_info = '''
-    >**事件详情**
-    >时 间：<font color=\"info\">{time}</font>
-    >Pipeline：`{pipeline}`'''.format(time=get_time(), pipeline=pipeline)
+>**事件详情**
+>时 间：<font color=\"info\">{time}</font>
+>Pipeline：`{pipeline}`
+'''.format(time=get_time(), pipeline=pipeline)
 
     content = base_content_info
 
-    message.get("markdown")["content"] = get_title_info(level) + content
+    message.get("markdown")["content"] = get_title_info(level) + "\n" + content
 
     return message
 
