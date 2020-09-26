@@ -104,7 +104,7 @@ def _out(stream):
 
     data = message(msgtype, pipeline, level)
     post_message(url, secret, data)
-    return {"version": {"version": data}}
+    return {"version": {"version": "1.2"}}
 
 
 if __name__ == "__main__":
