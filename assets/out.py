@@ -91,9 +91,8 @@ def post_message(url, secret, data):
     # pprint(response.text, stream=sys.stderr)
     if response.status_code != 200:
         print(response.json())
-    pprint(data, stream=sys.stderr)
 
-    return {"version": {"version": data}}
+
 
 
 def _out(stream):
@@ -105,8 +104,8 @@ def _out(stream):
 
     data = message(msgtype, pipeline, level)
     post_message(url, secret, data)
+    return {"version": {"version": data}}
 
 
 if __name__ == "__main__":
     print(json.dumps(_out(sys.stdin)))
-    # print({"version": {"version": "1.2"}})
