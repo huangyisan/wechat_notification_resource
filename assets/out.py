@@ -108,3 +108,4 @@ def _out(stream):
 
 if __name__ == "__main__":
     print(json.dumps(_out(sys.stdin)))
+    print({"version": {"version": data}})
