@@ -111,7 +111,7 @@ def _out(stream):
 
 def _check():
   timestamp = get_timestamp()
-  return [{"version":timestamp, "stage": "in"}]
+  return {"version": {"version": timestamp, "stage": "in"}}
 
 def get_timestamp():
   return str(int(time.time()))
