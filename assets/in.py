@@ -106,5 +106,19 @@ def _out(stream):
     post_message(url, secret, data)
 
 
+
+## in
+
+def _check():
+  timestamp = get_timestamp()
+  return [{"version":timestamp, "stage": "in"}]
+
+def get_timestamp():
+  return str(int(time.time()))
+
 if __name__ == "__main__":
-    print(json.dumps(_out(sys.stdin)))
+  print(json.dumps(_check()))
+
+
+# if __name__ == "__main__":
+#     print(json.dumps(_out(sys.stdin)))
