@@ -2,7 +2,6 @@ import json
 import sys
 import requests
 import time
-from pprint import pprint
 
 
 def get_time():
@@ -76,12 +75,12 @@ def post_message(url, secret, data):
     if response.status_code != 200:
         print(response.json())
 
+
 def get_timestamp():
-  return str(int(time.time()))
+    return str(int(time.time()))
 
 
 def _out(stream):
-
     payload = get_args(stream)
     payload_dict = payload_data(payload)
 
