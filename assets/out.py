@@ -50,9 +50,9 @@ def message(msgtype, pipeline, level, content):
 
     base_content_info = '''
 >**事件详情**
->时 间：<font color=\"info\">{time}</font>
->Pipeline：`{pipeline}`
->content: `{content}`
+>时 间: <font color=\"info\">{time}</font>
+>Pipeline: `{pipeline}`
+>Content: `{content}`
 '''.format(time=get_time(), pipeline=pipeline, content=content)
 
     content = base_content_info
