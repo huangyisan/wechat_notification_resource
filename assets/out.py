@@ -24,6 +24,7 @@ def payload_data(payload):
     level = "success" if not source.get("level") else source.get("level")
     # pipeline name
     pipeline = source["pipeline"]
+    content = source["content"]
     payload_dict = {"url": url, "secret": secret, "msgtype": msgtype, "level": level, "pipeline": pipeline}
     return payload_dict
 
@@ -39,7 +40,7 @@ def get_title_info(level):
     return title_info
 
 
-def message(msgtype, pipeline, level):
+def message(msgtype, pipeline, level, content):
     message = {
         "msgtype": msgtype,
         "markdown": {
@@ -51,7 +52,8 @@ def message(msgtype, pipeline, level):
 >**事件详情**
 >时 间：<font color=\"info\">{time}</font>
 >Pipeline：`{pipeline}`
-'''.format(time=get_time(), pipeline=pipeline)
+>content: `{content}`
+'''.format(time=get_time(), pipeline=pipeline, content=content)
 
     content = base_content_info
 
