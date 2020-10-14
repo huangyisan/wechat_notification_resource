@@ -24,8 +24,8 @@ def payload_data(payload):
     level = "success" if not source.get("level") else source.get("level")
     # pipeline name
     pipeline = source["pipeline"]
-    content = source["content"]
-    payload_dict = {"url": url, "secret": secret, "msgtype": msgtype, "level": level, "pipeline": pipeline}
+    content = "No content" if not source.get("content") else source.get("content")
+    payload_dict = {"url": url, "secret": secret, "msgtype": msgtype, "level": level, "pipeline": pipeline, "content":content}
     return payload_dict
 
 
@@ -87,9 +87,9 @@ def _out(stream):
     payload = get_args(stream)
     payload_dict = payload_data(payload)
 
-    url, secret, msgtype, level, pipeline = payload_dict.values()
+    url, secret, msgtype, level, pipeline, content = payload_dict.values()
 
-    data = message(msgtype, pipeline, level)
+    data = message(msgtype, pipeline, level, content)
     post_message(url, secret, data)
     timestamp = get_timestamp()
     return {"version": {"version": timestamp}}
