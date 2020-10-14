@@ -36,3 +36,4 @@ You must specify one or more of the following:
 - `msgtype`: Message type
 - `level`:  Alert level
 - `pipeline`:  Pipeline name
+- `content`: Content info
