@@ -37,3 +37,7 @@ You must specify one or more of the following:
 - `level`:  Alert level
 - `pipeline`:  Pipeline name
 - `content`: Content info
+
+Docker image
+---------------
+https://hub.docker.com/repository/docker/dockerhuangyisan/wechat-notification-resource
