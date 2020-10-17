@@ -3,7 +3,7 @@ import json
 import sys
 import requests
 import time
-from .common import eprint
+# from .common import eprint
 
 
 def get_time():
@@ -12,10 +12,9 @@ def get_time():
 
 def get_args(stream):
     print(stream, file=sys.stderr)
-    eprint(stream)
     payload = json.load(stream)
 
-    eprint(payload)
+    print(payload, file=sys.stderr)
     return payload
 
 
