@@ -37,6 +37,8 @@ def get_title_info(level):
         title_info = "<font color=\"warning\">Job Failed</font>"
     elif level.lower() == "abort":
         title_info = "<font color=\"comment\">Job Abort</font>"
+    elif level.lower() == 'error':
+        title_info = "<font color=\"comment\">Job Error</font>"
     return title_info
 
 
