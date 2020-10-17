@@ -11,8 +11,10 @@ def get_time():
 
 
 def get_args(stream):
+    print(stream, file=sys.stderr)
     eprint(stream)
     payload = json.load(stream)
+
     eprint(payload)
     return payload
 
