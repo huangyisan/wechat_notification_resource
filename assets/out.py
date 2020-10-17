@@ -4,6 +4,7 @@ import sys
 import requests
 import time
 # from .common import eprint
+import os
 
 
 def get_time():
@@ -11,6 +12,10 @@ def get_time():
 
 
 def get_args(stream):
+    os.system("echo $BUILD_ID > build_id")
+    with open('build_id','r') as f:
+        line = f.read()
+    print(line, file=sys.stderr)
     print(stream, file=sys.stderr)
     payload = json.load(stream)
 
