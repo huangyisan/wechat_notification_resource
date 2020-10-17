@@ -3,7 +3,7 @@ import json
 import sys
 import requests
 import time
-from common import eprint
+from .common import eprint
 
 
 def get_time():
