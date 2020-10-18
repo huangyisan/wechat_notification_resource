@@ -49,6 +49,7 @@ def get_args(stream):
 def payload_data(payload):
     # source = payload["source"]
     source = payload["params"]
+    print(source, file=sys.stderr)
     url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send" if not source.get("url") else source.get("url")
     secret = source["secret"]
     msgtype = "markdown" if not source.get("msgtype") else source.get("msgtype")
@@ -74,6 +75,7 @@ def get_title_info(level):
 
 
 def message(msgtype, level, content):
+    print(content, file=sys.stderr)
     BUILD_PIPELINE_NAME, BUILD_PIPELINE_ID, BUILD_NAME, BUILD_TEAM_NAME, BUILD_JOB_NAME, BUILD_ID, BUILD_TEAM_ID, BUILD_JOB_ID, ATC_EXTERNAL_URL, URL = get_env().values()
     message = {
         "msgtype": msgtype,
