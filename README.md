@@ -40,4 +40,4 @@ You must specify one or more of the following:
 
 Docker image
 ---------------
-https://hub.docker.com/repository/docker/dockerhuangyisan/wechat-notification-resource
+https://hub.docker.com/r/dockerhuangyisan/wechat-notification-resource
