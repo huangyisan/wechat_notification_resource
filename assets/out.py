@@ -20,7 +20,7 @@ def get_env():
     BUILD_TEAM_ID = os.getenv('BUILD_TEAM_ID')
     BUILD_JOB_ID = os.getenv('BUILD_JOB_ID')
     ATC_EXTERNAL_URL = os.getenv('ATC_EXTERNAL_URL')
-    URL = '{ATC_EXTERNAL_URL}/teams{BUILD_TEAM_NAME}/pipelines/{BUILD_PIPELINE_NAME}/jobs/{BUILD_JOB_NAME}/builds/{BUILD_NAME}'.format(
+    URL = '{ATC_EXTERNAL_URL}/teams/{BUILD_TEAM_NAME}/pipelines/{BUILD_PIPELINE_NAME}/jobs/{BUILD_JOB_NAME}/builds/{BUILD_NAME}'.format(
         ATC_EXTERNAL_URL=ATC_EXTERNAL_URL,
         BUILD_TEAM_NAME=BUILD_TEAM_NAME,
         BUILD_PIPELINE_NAME=BUILD_PIPELINE_NAME,
@@ -54,7 +54,6 @@ def payload_data(payload):
     msgtype = "markdown" if not source.get("msgtype") else source.get("msgtype")
     # success, failed, abort
     level = "success" if not source.get("level") else source.get("level")
-    # pipeline name
     content = "No content" if not source.get("content") else source.get("content")
     payload_dict = {"url": url, "secret": secret, "msgtype": msgtype, "level": level,
                     "content": content}
