@@ -35,9 +35,42 @@ You must specify one or more of the following:
 - `secret`: Your access_token
 - `msgtype`: Message type
 - `level`:  Alert level
-- `pipeline`:  Pipeline name
 - `content`: Content info
+
+Pipeline Example
+----------------
+
+```yaml
+
+jobs:
+- name: test-run
+  plan:
+  - params:
+      level: failed
+      msgtype: markdown
+      secret: [YOUR-WECHAT-TOKEN]
+      content: JOB FAILED
+    put: wx-alert
+resource_types:
+- name: wx-alert-resource
+  source:
+    repository: dockerhuangyisan/wechat-notification-resource
+    tag: "latest"
+  type: docker-image
+resources:
+- name: wx-alert
+  source: null
+  type: wx-alert-resource
+```
+
+#### Wechat Message Example
+![wechat_message_example](https://image.kirakirazone.com/image/wechat_message.png)
+
+
 
 Docker image
 ---------------
 https://hub.docker.com/r/dockerhuangyisan/wechat-notification-resource
+
+
+
