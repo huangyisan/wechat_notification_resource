@@ -89,8 +89,8 @@ def message(msgtype, level, content):
 >PIPELINE_NAME: `{BUILD_PIPELINE_NAME}`
 >JOB_NAME: `{BUILD_JOB_NAME}`
 >BUILD_NAME: `{BUILD_NAME}`
->如需查看详细信息，请点击: [事件]({URL})
 >CONTENT: `{content}`
+>如需查看详细信息，请点击: [事件]({URL})
 '''.format(time=get_time(), BUILD_TEAM_NAME=BUILD_TEAM_NAME, BUILD_PIPELINE_NAME=BUILD_PIPELINE_NAME,
            BUILD_JOB_NAME=BUILD_JOB_NAME, BUILD_NAME=BUILD_NAME, URL=URL, content=content)
     content = base_content_info
