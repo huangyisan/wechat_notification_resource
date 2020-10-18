@@ -3,7 +3,6 @@ import json
 import sys
 import requests
 import time
-# from .common import eprint
 import os
 
 
@@ -11,15 +10,39 @@ def get_time():
     return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
 
 
-def get_args(stream):
-    os.system("echo $(env) > build_id")
-    with open('build_id','r') as f:
-        line = f.read()
-    print(line, file=sys.stderr)
-    print(stream, file=sys.stderr)
-    payload = json.load(stream)
+def get_env():
+    BUILD_PIPELINE_NAME = os.getenv('BUILD_PIPELINE_NAME')
+    BUILD_PIPELINE_ID = os.getenv('BUILD_PIPELINE_ID')
+    BUILD_NAME = os.getenv('BUILD_NAME')
+    BUILD_TEAM_NAME = os.getenv('BUILD_TEAM_NAME')
+    BUILD_JOB_NAME = os.getenv('BUILD_JOB_NAME')
+    BUILD_ID = os.getenv('BUILD_ID')
+    BUILD_TEAM_ID = os.getenv('BUILD_TEAM_ID')
+    BUILD_JOB_ID = os.getenv('BUILD_JOB_ID')
+    ATC_EXTERNAL_URL = os.getenv('ATC_EXTERNAL_URL')
+    URL = '{ATC_EXTERNAL_URL}/teams{BUILD_TEAM_NAME}/pipelines/{BUILD_PIPELINE_NAME}/jobs/{BUILD_JOB_NAME}/builds/{BUILD_NAME}'.format(
+        ATC_EXTERNAL_URL=ATC_EXTERNAL_URL,
+        BUILD_TEAM_NAME=BUILD_TEAM_NAME,
+        BUILD_PIPELINE_NAME=BUILD_PIPELINE_NAME,
+        BUILD_JOB_NAME=BUILD_JOB_NAME,
+        BUILD_NAME=BUILD_NAME)
+    env_dict = {
+        'BUILD_PIPELINE_NAME': BUILD_PIPELINE_NAME,
+        'BUILD_PIPELINE_ID': BUILD_PIPELINE_ID,
+        'BUILD_NAME': BUILD_NAME,
+        'BUILD_TEAM_NAME': BUILD_TEAM_NAME,
+        'BUILD_JOB_NAME': BUILD_JOB_NAME,
+        'BUILD_ID': BUILD_ID,
+        'BUILD_TEAM_ID': BUILD_TEAM_ID,
+        'BUILD_JOB_ID': BUILD_JOB_ID,
+        'ATC_EXTERNAL_URL': ATC_EXTERNAL_URL,
+        'URL': URL
+    }
+    return env_dict
 
-    print(payload, file=sys.stderr)
+
+def get_args(stream):
+    payload = json.load(stream)
     return payload
 
 
@@ -32,9 +55,9 @@ def payload_data(payload):
     # success, failed, abort
     level = "success" if not source.get("level") else source.get("level")
     # pipeline name
-    pipeline = source["pipeline"]
     content = "No content" if not source.get("content") else source.get("content")
-    payload_dict = {"url": url, "secret": secret, "msgtype": msgtype, "level": level, "pipeline": pipeline, "content":content}
+    payload_dict = {"url": url, "secret": secret, "msgtype": msgtype, "level": level,
+                    "content": content}
     return payload_dict
 
 
@@ -51,7 +74,8 @@ def get_title_info(level):
     return title_info
 
 
-def message(msgtype, pipeline, level, content):
+def message(msgtype, level, content):
+    BUILD_PIPELINE_NAME, BUILD_PIPELINE_ID, BUILD_NAME, BUILD_TEAM_NAME, BUILD_JOB_NAME, BUILD_ID, BUILD_TEAM_ID, BUILD_JOB_ID, ATC_EXTERNAL_URL, URL = get_env().values()
     message = {
         "msgtype": msgtype,
         "markdown": {
@@ -62,10 +86,14 @@ def message(msgtype, pipeline, level, content):
     base_content_info = '''
 >**事件详情**
 >时 间: <font color=\"info\">{time}</font>
->Pipeline: `{pipeline}`
->Content: `{content}`
-'''.format(time=get_time(), pipeline=pipeline, content=content)
-
+>TEAM_NAME: `{BUILD_TEAM_NAME}`
+>PIPELINE_NAME: `{BUILD_PIPELINE_NAME}`
+>JOB_NAME: `{BUILD_JOB_NAME}`
+>BUILD_NAME: `{BUILD_NAME}`
+>URL: `{URL}`
+>CONTENT: `{content}`
+'''.format(time=get_time(), BUILD_TEAM_NAME=BUILD_TEAM_NAME, BUILD_PIPELINE_NAME=BUILD_PIPELINE_NAME,
+           BUILD_JOB_NAME=BUILD_JOB_NAME, BUILD_NAME=BUILD_NAME, URL=URL, content=content)
     content = base_content_info
 
     message.get("markdown")["content"] = get_title_info(level) + "\n" + content
@@ -98,9 +126,9 @@ def _out(stream):
     payload = get_args(stream)
     payload_dict = payload_data(payload)
 
-    url, secret, msgtype, level, pipeline, content = payload_dict.values()
+    url, secret, msgtype, level, content = payload_dict.values()
 
-    data = message(msgtype, pipeline, level, content)
+    data = message(msgtype, level, content)
     post_message(url, secret, data)
     timestamp = get_timestamp()
     return {"version": {"version": timestamp}}
