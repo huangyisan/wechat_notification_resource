@@ -85,8 +85,8 @@ def message(msgtype, level, content):
     base_content_info = '''
 >**事件详情**
 >TIME: <font color=\"comment\">{time}</font>
->PIPELINE_NAME: <font color=\"warning\">`{BUILD_PIPELINE_NAME}`</font>
->CONTENT: <font color=\"warning\">{content}</font>
+>PIPELINE_NAME: <font color=\"info\">`{BUILD_PIPELINE_NAME}`</font>
+>CONTENT: <font color=\"info\">{content}</font>
 >TEAM_NAME: <font color=\"comment\">`{BUILD_TEAM_NAME}`</font>
 >JOB_NAME: <font color=\"comment\">`{BUILD_JOB_NAME}`</font>
 >BUILD_NAME: <font color=\"comment\">`{BUILD_NAME}`</font>
