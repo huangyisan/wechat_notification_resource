@@ -128,21 +128,22 @@ def _out(stream):
     post_message(url, secret, data)
     timestamp = get_timestamp()
     BUILD_PIPELINE_NAME, BUILD_PIPELINE_ID, BUILD_NAME, BUILD_TEAM_NAME, BUILD_JOB_NAME, BUILD_ID, BUILD_TEAM_ID, BUILD_JOB_ID, ATC_EXTERNAL_URL, _ = get_env().values()
-    return {"version": {"version": timestamp,
-                        "metadata": [
-                            {
-                                "BUILD_PIPELINE_NAME": BUILD_PIPELINE_NAME,
-                                "BUILD_PIPELINE_ID": BUILD_PIPELINE_ID,
-                                "BUILD_NAME": BUILD_NAME,
-                                "BUILD_TEAM_NAME": BUILD_TEAM_NAME,
-                                "BUILD_JOB_NAME": BUILD_JOB_NAME,
-                                "BUILD_ID": BUILD_ID,
-                                "BUILD_TEAM_ID": BUILD_TEAM_ID,
-                                "BUILD_JOB_ID": BUILD_JOB_ID,
-                                "ATC_EXTERNAL_URL": ATC_EXTERNAL_URL
-                            }
-                        ]}}
-
+    return {
+        "version": {"version": timestamp, },
+        "metadata": [
+            {
+                "BUILD_PIPELINE_NAME": BUILD_PIPELINE_NAME,
+                "BUILD_PIPELINE_ID": BUILD_PIPELINE_ID,
+                "BUILD_NAME": BUILD_NAME,
+                "BUILD_TEAM_NAME": BUILD_TEAM_NAME,
+                "BUILD_JOB_NAME": BUILD_JOB_NAME,
+                "BUILD_ID": BUILD_ID,
+                "BUILD_TEAM_ID": BUILD_TEAM_ID,
+                "BUILD_JOB_ID": BUILD_JOB_ID,
+                "ATC_EXTERNAL_URL": ATC_EXTERNAL_URL
+            }
+        ]
+    }
 
 if __name__ == "__main__":
     print(json.dumps(_out(sys.stdin)))
