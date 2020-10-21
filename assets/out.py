@@ -83,13 +83,13 @@ def message(msgtype, level, content):
     }
 
     base_content_info = '''
->**事件详情 `{BUILD_PIPELINE_NAME}`**
->TIME: <font color=\"info\">{time}</font>
->CONTENT: `{content}`
->TEAM_NAME: `{BUILD_TEAM_NAME}`
->PIPELINE_NAME: `{BUILD_PIPELINE_NAME}`
->JOB_NAME: `{BUILD_JOB_NAME}`
->BUILD_NAME: `{BUILD_NAME}`
+>**事件详情**
+>TIME: <font color=\"comment\">{time}</font>
+>PIPELINE_NAME: <font color=\"warning\">`{BUILD_PIPELINE_NAME}`</font>
+>CONTENT: <font color=\"warning\">{content}</font>
+>TEAM_NAME: <font color=\"comment\">`{BUILD_TEAM_NAME}`</font>
+>JOB_NAME: <font color=\"comment\">`{BUILD_JOB_NAME}`</font>
+>BUILD_NAME: <font color=\"comment\">`{BUILD_NAME}`</font>
 >如需查看详细信息，请点击: [事件]({URL})
 '''.format(time=get_time(), BUILD_TEAM_NAME=BUILD_TEAM_NAME, BUILD_PIPELINE_NAME=BUILD_PIPELINE_NAME,
            BUILD_JOB_NAME=BUILD_JOB_NAME, BUILD_NAME=BUILD_NAME, URL=URL, content=content)
