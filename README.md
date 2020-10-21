@@ -22,7 +22,8 @@ Wechat Webhook, go to
 
 Behavior
 --------
-
+### `check`: Not support
+### `in`: Not support
 ### `out`: Sends a message to WeChat.
 
 Send a message to Slack, with the configured parameters.
