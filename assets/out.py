@@ -84,12 +84,12 @@ def message(msgtype, level, content):
 
     base_content_info = '''
 >**事件详情**
->TIME: <font color=\"info\">{time}</font>
->TEAM_NAME: `{BUILD_TEAM_NAME}`
->PIPELINE_NAME: `{BUILD_PIPELINE_NAME}`
->JOB_NAME: `{BUILD_JOB_NAME}`
->BUILD_NAME: `{BUILD_NAME}`
->CONTENT: `{content}`
+>TIME: <font color=\"comment\">{time}</font>
+>PIPELINE_NAME: <font color=\"info\">{BUILD_PIPELINE_NAME}</font>
+>CONTENT: <font color=\"info\">{content}</font>
+>TEAM_NAME: <font color=\"comment\">{BUILD_TEAM_NAME}</font>
+>JOB_NAME: <font color=\"comment\">{BUILD_JOB_NAME}</font>
+>BUILD_NAME: <font color=\"comment\">{BUILD_NAME}</font>
 >如需查看详细信息，请点击: [事件]({URL})
 '''.format(time=get_time(), BUILD_TEAM_NAME=BUILD_TEAM_NAME, BUILD_PIPELINE_NAME=BUILD_PIPELINE_NAME,
            BUILD_JOB_NAME=BUILD_JOB_NAME, BUILD_NAME=BUILD_NAME, URL=URL, content=content)
@@ -108,11 +108,8 @@ def post_message(url, secret, data):
     params = {
         "key": secret
     }
-    # pprint(type(data))
     data = json.dumps(data)
-    # pprint(type(data))
     response = requests.request("POST", url, headers=headers, data=data, params=params)
-    # pprint(response.text, stream=sys.stderr)
     if response.status_code != 200:
         print(response.json())
 
@@ -130,8 +127,21 @@ def _out(stream):
     data = message(msgtype, level, content)
     post_message(url, secret, data)
     timestamp = get_timestamp()
-    return {"version": {"version": timestamp}}
-
+    BUILD_PIPELINE_NAME, BUILD_PIPELINE_ID, BUILD_NAME, BUILD_TEAM_NAME, BUILD_JOB_NAME, BUILD_ID, BUILD_TEAM_ID, BUILD_JOB_ID, ATC_EXTERNAL_URL, _ = get_env().values()
+    return {
+        "version": {"version": timestamp},
+        "metadata": [
+            {"BUILD_PIPELINE_NAME": BUILD_PIPELINE_NAME},
+            {"BUILD_PIPELINE_ID": BUILD_PIPELINE_ID},
+            {"BUILD_NAME": BUILD_NAME},
+            {"BUILD_TEAM_NAME": BUILD_TEAM_NAME},
+            {"BUILD_JOB_NAME": BUILD_JOB_NAME},
+            {"BUILD_ID": BUILD_ID},
+            {"BUILD_TEAM_ID": BUILD_TEAM_ID},
+            {"BUILD_JOB_ID": BUILD_JOB_ID},
+            {"ATC_EXTERNAL_URL": ATC_EXTERNAL_URL},
+        ]
+    }
 
 if __name__ == "__main__":
     print(json.dumps(_out(sys.stdin)))
