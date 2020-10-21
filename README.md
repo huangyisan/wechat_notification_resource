@@ -52,15 +52,14 @@ jobs:
       content: JOB FAILED
     put: wx-alert
 resource_types:
-- name: wx-alert-resource
+- name: wechat-notification
   source:
     repository: dockerhuangyisan/wechat-notification-resource
     tag: "latest"
   type: docker-image
 resources:
 - name: wx-alert
-  source: null
-  type: wx-alert-resource
+  type: wechat-notification
 ```
 
 #### Wechat Message Example
