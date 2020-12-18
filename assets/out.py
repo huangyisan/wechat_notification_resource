@@ -47,12 +47,11 @@ def get_args(stream):
 
 
 def payload_data(payload):
-    # source = payload["source"]
     source = payload["params"]
     url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send" if not source.get("url") else source.get("url")
     secret = source["secret"]
     msgtype = "markdown" if not source.get("msgtype") else source.get("msgtype")
-    # success, failed, abort
+    # success, failed, abort, error
     level = "success" if not source.get("level") else source.get("level")
     content = "No content" if not source.get("content") else source.get("content")
     payload_dict = {"url": url, "secret": secret, "msgtype": msgtype, "level": level,
@@ -62,14 +61,15 @@ def payload_data(payload):
 
 def get_title_info(level):
     title_info = ""
-    if level.lower() == "success":
+    level = level.lower()
+    if level == "success":
         title_info = "<font color=\"info\">Job Success</font>"
-    elif level.lower() == "failed":
+    elif level == "failed":
         title_info = "<font color=\"warning\">Job Failed</font>"
-    elif level.lower() == "abort":
+    elif level == "abort":
         title_info = "<font color=\"comment\">Job Abort</font>"
-    elif level.lower() == 'error':
-        title_info = "<font color=\"comment\">Job Error</font>"
+    elif level == 'error':
+        title_info = "<font color=\"warning\">Job Error</font>"
     return title_info
 
 
