@@ -26,7 +26,7 @@ Behavior
 ### `in`: Not support
 ### `out`: Sends a message to WeChat.
 
-Send a message to Slack, with the configured parameters.
+Send a message to Wechat, with the configured parameters.
 
 #### Parameters
 
