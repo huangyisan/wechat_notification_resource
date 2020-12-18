@@ -1,7 +1,7 @@
 WeChat notification sending resource
 =================================
 
-Sends message to [WeChat](https://weixin.qq.com/)
+Sends message to [WeChat](https://www.wechat.com/)
 
 Resource Type Configuration
 ---------------------------
