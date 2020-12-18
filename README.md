@@ -17,7 +17,7 @@ resource_types:
 Source Configuration
 ---------------------------------
 
-Wechat Webhook, go to
+WeChat Webhook, go to
 <https://open.work.weixin.qq.com/api/doc/90000/90135/90236>
 
 Behavior
@@ -26,17 +26,20 @@ Behavior
 ### `in`: Not support
 ### `out`: Sends a message to WeChat.
 
-Send a message to Wechat, with the configured parameters.
+Send a message to WeChat group, with the configured parameters.
 
 #### Parameters
 
 You must specify one or more of the following:
 
-- `url`:  WeChat webhook url
-- `secret`: Your access_token
-- `msgtype`: Message type
-- `level`:  Alert level
-- `content`: Content info
+- `secret`: Required. The WeChart Group robot's access token.
+- `msgtype`: Required. Message type, current only support markdown.
+- `level`:  Required. Message level (success, failed, abort, error).
+- `content`: Required. Static text of the message to send.
+
+Optional:
+
+- `url`: Optional. Override webhook url send message to.
 
 Pipeline Example
 ----------------
@@ -62,11 +65,6 @@ resources:
 - name: wx-alert
   type: wechat-notification
 ```
-
-#### Wechat Message Example
-![wechat_message_example](https://image.kirakirazone.com/image/wechat_message.png)
-
-
 
 Docker image
 ---------------
