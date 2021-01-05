@@ -1,15 +1,9 @@
 #!/usr/bin/python
 import json
-import time
 
 
 def _check():
-    timestamp = get_timestamp()
-    return {"version": {"version": timestamp, "stage": "in"}}
-
-
-def get_timestamp():
-    return str(int(time.time()))
+    return {"version": {"version": "static", "stage": "in"}}
 
 
 if __name__ == "__main__":
