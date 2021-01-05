@@ -3,7 +3,7 @@ import json
 
 
 def _check():
-    return [{"version": "static", "stage": "check"}]
+    return [{"version": [], "stage": "check"}]
 
 
 if __name__ == "__main__":
