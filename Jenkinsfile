@@ -26,6 +26,7 @@ pipeline {
       // groupadd docker
       // usermod -aG docker jenkins
       steps {
+          sh 'whoami'
           sh "docker build . -t test:${lastTag}"
       }
     }
