@@ -35,7 +35,7 @@ pipeline {
               stage('Ensure concourse is up') {
                 script {
                   webStatus = """${sh(
-                  returnStdout: true, script: 'curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/'
+                    returnStdout: true, script: 'curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/'
                   )}"""
                   
                   if ("$webStatus" != "200") {
@@ -70,7 +70,7 @@ pipeline {
                 script {
                   // succeeded
                   isSucceeded = """${sh(
-                  returnStdout: true, script: 'fly -t main jobs -p wx-alert-smoke-test  | grep "succeeded" | wc -l'
+                    returnStdout: true, script: 'fly -t main jobs -p wx-alert-smoke-test  | grep "succeeded" | wc -l'
                   )}"""
                   isSucceeded = isSucceeded.trim()
                   echo "$isSucceeded"
