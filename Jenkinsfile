@@ -1,11 +1,14 @@
 pipeline {
   agent any
+  environment {
+    branch="feature-auto-ci"
+  }
   stages {
     stage('Get Last Tag') {
-      steps {
         when {
-          branch "feature-auto-ci"
+          branch "${branch}"
         }
+      steps {
         dir('wechat_notification_resource') {
           script {
             lastTag = """${sh(
@@ -19,10 +22,10 @@ pipeline {
       }
     }
     stage('Build docker image') {
+      when {
+          branch "${branch}"
+      }
       steps {
-        when {
-          branch "feature-auto-ci"
-        }
         dir('wechat_notification_resource') {
           echo "this is build stage ${lastTag}"
         }
