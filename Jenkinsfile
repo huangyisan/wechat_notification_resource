@@ -9,16 +9,13 @@ pipeline {
           branch "${branch}"
         }
       steps {
-        dir('wechat_notification_resource') {
-          script {
-            sh 'ls'
-            lastTag = """${sh(
-            returnStdout: true, script: 'git describe --tags `git rev-list --tags --max-count=1`'
-            )}"""
-            lastTag =  lastTag.trim()
-            echo "${lastTag}"
-            
-          }
+        script {
+          sh 'git pull'
+          lastTag = """${sh(
+          returnStdout: true, script: 'git describe --tags `git rev-list --tags --max-count=1`'
+          )}"""
+          lastTag =  lastTag.trim()
+          echo "${lastTag}"
         }
       }
     }
@@ -27,9 +24,7 @@ pipeline {
           branch "${branch}"
       }
       steps {
-        dir('wechat_notification_resource') {
           echo "this is build stage ${lastTag}"
-        }
       }
     }
   }
