@@ -28,9 +28,13 @@ pipeline {
       // systemctl restart jenkins
       steps {
         script {
+          // 
           docker.withRegistry("https://index.docker.io/v1/","docker-registry") {
             def img = docker.build("dockerhuangyisan/wechat-notification-resource:${lastTag}-autoci",'.')
-            img.push();
+            stage('test image') {
+              sh 'docker ps'
+            }
+            // img.push();
           }
             sh 'docker images'
             // sh "docker build . -t test:${lastTag}"
