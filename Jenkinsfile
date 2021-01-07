@@ -25,9 +25,15 @@ pipeline {
       // refer: https://docs.docker.com/engine/install/linux-postinstall/
       // groupadd docker
       // usermod -aG docker jenkins
+      // systemctl restart jenkins
       steps {
-          sh 'whoami'
-          sh "docker build . -t test:${lastTag}"
+        script {
+          docker.withRegistry("https://index.docker.io/v1/","docker-registry") {
+            def img = docker.build("dockerhuangyisan/wechat-notification-resource:${lastTag}",'.')
+          }
+            sh 'docker images'
+            // sh "docker build . -t test:${lastTag}"
+        }
       }
     }
   }
