@@ -48,11 +48,10 @@ pipeline {
                 environment {
                   wxToken = credentials('wx-token-self')
                 }
-                steps {
                   dir('smoke-test') {
                     sh "python3 wx-alert-smoke-test-pipeline-render.py ${wxToken} ${lastTag}"
                     sh "ls"
-                  }
+                  
                   
                 }
               }
