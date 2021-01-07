@@ -10,7 +10,8 @@ pipeline {
       }
       steps {
         script {
-          sh 'pwd'
+          // fetch tags
+          sh 'git fetch'
           lastTag = """${sh(
           returnStdout: true, script: 'git describe --tags `git rev-list --tags --max-count=1`'
           )}"""
@@ -169,7 +170,7 @@ pipeline {
         )
       }
       // clean workspace
-      // cleanWs()
+      cleanWs()
     }
   }
 }
