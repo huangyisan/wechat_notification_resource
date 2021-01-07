@@ -22,7 +22,7 @@ pipeline {
           branch "${branch}"
       }
       steps {
-          sh 'docker build . -t test:${lastTag}'
+          sh "docker build . -t test:${lastTag}"
       }
     }
   }
