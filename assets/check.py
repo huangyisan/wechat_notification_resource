@@ -2,7 +2,8 @@
 
 
 def _check():
-    return []
+    errortest
+    return '[]'
 
 
 if __name__ == "__main__":
