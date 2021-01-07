@@ -21,6 +21,10 @@ pipeline {
       when {
           branch "${branch}"
       }
+      // run follow commands on linux
+      // refer: https://docs.docker.com/engine/install/linux-postinstall/
+      // groupadd docker
+      // usermod -aG docker jenkins
       steps {
           sh "docker build . -t test:${lastTag}"
       }
