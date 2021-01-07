@@ -2,7 +2,6 @@
 
 
 def _check():
-    test error
     return '[]'
 
 
