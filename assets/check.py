@@ -2,7 +2,7 @@
 
 
 def _check():
-    return '[]'
+    return []
 
 
 if __name__ == "__main__":
