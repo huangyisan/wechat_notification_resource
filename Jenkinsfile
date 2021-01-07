@@ -1,7 +1,7 @@
 pipeline {
   agent any
   environment {
-    BRANCH="master"
+    BRANCH="feature-auto-ci"
   }
   stages {
     stage('Get latest tag') {
