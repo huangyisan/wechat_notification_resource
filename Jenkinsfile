@@ -38,13 +38,25 @@ pipeline {
                 returnStdout: true, script: 'curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/'
                 )}"""
 
-                if ("$webStatus" == 200) {
-                  error "xx"
+                if ("$webStatus" != 200) {
+                  echo "Concourse is not up"
+                  error "Concourse is not up"
                 }
               }
-              environment {
-                wxToken = credentials('wx-token-self')
+
+              stage('Render smoke test YAML file') {
+                environment {
+                  wxToken = credentials('wx-token-self')
+                }
+                steps {
+                  dir('smoke-test') {
+                    sh "python3 wx-alert-smoke-test-pipeline-render.py ${wxToken} ${lastTag}"
+                    sh "ls"
+                  }
+                  
+                }
               }
+              
               echo "$wxToken"
             }
             // img.push();
