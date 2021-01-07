@@ -69,22 +69,20 @@ pipeline {
                 }
               }
 
-              stage('Get job latest test status'){
+              stage('Get job latest test status') {
                 script {
-
-                
-                // succeeded
-                isSucceeded = """${sh(
-                returnStdout: true, script: 'fly -t main jobs -p wx-alert-smoke-test  | grep "succeeded" | wc -l'
-                )}"""
-                isSucceeded = isSucceeded.trim()
-                echo "${isSucceeded}"
-                if (string("${isSucceeded}") != "1") {
-                  echo "Smoke test Failed"
-                  error "Smoke test Failed"
-                } else {
-                  echo "Smoke test Successful"
-                }
+                  // succeeded
+                  isSucceeded = """${sh(
+                  returnStdout: true, script: 'fly -t main jobs -p wx-alert-smoke-test  | grep "succeeded" | wc -l'
+                  )}"""
+                  isSucceeded = isSucceeded.trim()
+                  echo "$isSucceeded"
+                  if ("$isSucceeded" == "1") {
+                    echo "Smoke test Failed"
+                    error "Smoke test Failed"
+                  } else {
+                    echo "Smoke test Successful"
+                  }
                 }
               }
 
