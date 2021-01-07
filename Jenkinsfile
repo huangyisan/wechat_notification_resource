@@ -1,12 +1,12 @@
 pipeline {
   agent any
   environment {
-    branch="feature-auto-ci"
+    BRANCH="master"
   }
   stages {
     stage('Get latest tag') {
       when {
-        branch "${branch}"
+        branch "${BRANCH}"
       }
       steps {
         script {
@@ -19,7 +19,7 @@ pipeline {
     }
     stage('Build docker image') {
       when {
-          branch "${branch}"
+          branch "${BRANCH}"
       }
       // run follow commands on linux
       // refer: https://docs.docker.com/engine/install/linux-postinstall/
