@@ -66,7 +66,7 @@ pipeline {
                   sh "fly -t main unpause-pipeline -p wx-alert-smoke-test"
                   sh "fly -t main trigger-job -j wx-alert-smoke-test/smoke-test"
                   // wait for running smoke test
-                  sh "sleep 25"
+                  sh "sleep 50"
                 }
               }
 
