@@ -71,7 +71,7 @@ pipeline {
                 returnStdout: true, script: 'fly -t main jobs -p wx-alert-smoke-test  | grep "succeeded" | wc -l'
                 )}"""
                 echo "${isSucceeded}"
-                if ("${isSucceeded}" != 1) {
+                if ("${isSucceeded}" != "1") {
                   echo "Smoke test Failed"
                   error "Smoke test Failed"
                 } else {
