@@ -46,24 +46,23 @@ pipeline {
 
               stage('Render smoke test YAML file') {
                   dir('smoke-test') {
-                    
                     // def wxToken = credentials('wx-token-self')
                     withCredentials([string(credentialsId: 'wx-token-self', variable: 'wxToken')]) {
                          sh "python3 wx-alert-smoke-test-pipeline-render.py ${wxToken} ${lastTag}"
-                    sh "ls"
-                      
-                    
-                    
+                    // sh "ls"
                   }
                 }
               }
-              
-              echo "$wxToken"
+
+              stage('Update wx-alert-smoke-test-pipeline'){
+                dir('smoke-test') {
+
+                  sh "fly -t main login -c http://localhost:8080 -u test -p test"
+                }
+              }
             }
             // img.push();
           }
-            sh 'docker images'
-            // sh "docker build . -t test:${lastTag}"
         }
       }
     }
