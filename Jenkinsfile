@@ -5,9 +5,9 @@ pipeline {
   }
   stages {
     stage('Get latest tag') {
-        when {
-          branch "${branch}"
-        }
+      when {
+        branch "${branch}"
+      }
       steps {
         script {
           lastTag = """${sh(
@@ -28,32 +28,29 @@ pipeline {
       // systemctl restart jenkins
       steps {
         script {
-          // 
           docker.withRegistry("https://index.docker.io/v1/","docker-registry") {
             def img = docker.build("dockerhuangyisan/wechat-notification-resource:${lastTag}",'.')
             stage('Test image') {
 
               stage('Ensure concourse is up') {
                 script {
-
-               
-                webStatus = """${sh(
-                returnStdout: true, script: 'curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/'
-                )}"""
-                
-                if ("$webStatus" == 200) {
-                  echo "Concourse is not up"
-                  error "Concourse is not up"
-                } else {
-                  echo "Concourse is up"
-                }
+                  webStatus = """${sh(
+                  returnStdout: true, script: 'curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/'
+                  )}"""
+                  
+                  if ("$webStatus" != "200") {
+                    echo "Concourse is not up"
+                    error "Concourse is not up"
+                  } else {
+                    echo "Concourse is up"
+                  }
                  }
               }
 
               stage('Render smoke test YAML file') {
                   dir('smoke-test') {
                     withCredentials([string(credentialsId: 'wx-token-self', variable: 'wxToken')]) {
-                         sh "python3 wx-alert-smoke-test-pipeline-render.py ${wxToken} ${lastTag}"
+                      sh "python3 wx-alert-smoke-test-pipeline-render.py ${wxToken} ${lastTag}"
                   }
                 }
               }
