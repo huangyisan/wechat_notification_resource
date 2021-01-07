@@ -34,16 +34,20 @@ pipeline {
             stage('Test image') {
 
               stage('Ensure concourse is up') {
+                script {
+
+               
                 webStatus = """${sh(
                 returnStdout: true, script: 'curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/'
                 )}"""
-
+                
                 if ("$webStatus" == 200) {
                   echo "Concourse is not up"
                   error "Concourse is not up"
                 } else {
                   echo "Concourse is up"
                 }
+                 }
               }
 
               stage('Render smoke test YAML file') {
@@ -66,17 +70,21 @@ pipeline {
               }
 
               stage('Get job latest test status'){
+                script {
+
+                
                 // succeeded
                 isSucceeded = """${sh(
                 returnStdout: true, script: 'fly -t main jobs -p wx-alert-smoke-test  | grep "succeeded" | wc -l'
                 )}"""
                 isSucceeded = isSucceeded.trim()
                 echo "${isSucceeded}"
-                if (string("$isSucceeded") != "1") {
+                if (string("${isSucceeded}") != "1") {
                   echo "Smoke test Failed"
                   error "Smoke test Failed"
                 } else {
                   echo "Smoke test Successful"
+                }
                 }
               }
 
