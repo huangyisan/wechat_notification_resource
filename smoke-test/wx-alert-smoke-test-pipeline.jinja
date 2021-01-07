@@ -1,0 +1,22 @@
+---
+resource_types:
+- name: wechat-notification
+  type: docker-image
+  source:
+    repository: dockerhuangyisan/wechat-notification-resource
+    tag: {{ tag }}
+
+resources:
+- name: wx-alert
+  type: wechat-notification
+
+jobs:
+- name: smoke-test
+  plan:
+  - put: wx-alert
+    params:
+      secret: {{ secret }}
+      msgtype: markdown
+      level: success
+      content: This is a smoke test
+
