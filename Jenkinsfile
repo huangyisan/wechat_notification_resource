@@ -32,6 +32,8 @@ pipeline {
         script {
           docker.withRegistry("https://index.docker.io/v1/","docker-registry") {
             def img = docker.build("dockerhuangyisan/wechat-notification-resource:${lastTag}",'.')
+            // push vs lastTag
+            img.push()
             stage('Test image') {
 
               stage('Ensure concourse is up') {
@@ -169,6 +171,8 @@ pipeline {
             body: body
         )
       }
+      // clean concourse pipeline
+      sh "fly dp -p wx-alert-smoke-test -n"
       // clean workspace
       cleanWs()
     }
