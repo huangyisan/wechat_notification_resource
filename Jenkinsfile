@@ -56,8 +56,10 @@ pipeline {
 
               stage('Update wx-alert-smoke-test-pipeline'){
                 dir('smoke-test') {
-
                   sh "fly -t main login -c http://localhost:8080 -u test -p test"
+                  sh "fly -t main sp -p wx-alert-smoke-test -c wx-alert-smoke-test-pipeline.yml -n"
+                  sh "fly -t main unpause-pipeline -p wx-alert-smoke-test"
+                  sh "fly -t main trigger-job -j wx-alert-smoke-test/smoke-test"
                 }
               }
             }
