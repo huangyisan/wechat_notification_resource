@@ -14,7 +14,6 @@ pipeline {
           returnStdout: true, script: 'git describe --tags `git rev-list --tags --max-count=1`'
           )}"""
           lastTag = lastTag.trim()
-          echo "${lastTag}"
         }
       }
     }
@@ -23,7 +22,7 @@ pipeline {
           branch "${branch}"
       }
       steps {
-          echo "this is build stage ${lastTag}"
+          sh 'docker build . -t test:${lastTag}'
       }
     }
   }
