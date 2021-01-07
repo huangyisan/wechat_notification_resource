@@ -10,7 +10,6 @@ pipeline {
       }
       steps {
         script {
-          checkout scm
           sh 'pwd'
           lastTag = """${sh(
           returnStdout: true, script: 'git describe --tags `git rev-list --tags --max-count=1`'
@@ -170,7 +169,7 @@ pipeline {
         )
       }
       // clean workspace
-      cleanWs()
+      // cleanWs()
     }
   }
 }
