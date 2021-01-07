@@ -45,14 +45,14 @@ pipeline {
               }
 
               stage('Render smoke test YAML file') {
-                environment {
-                  wxToken = credentials('wx-token-self')
-                }
                   dir('smoke-test') {
+                    script {
+                    def wxToken = credentials('wx-token-self')
+
+                    
                     sh "python3 wx-alert-smoke-test-pipeline-render.py ${wxToken} ${lastTag}"
                     sh "ls"
-                  
-                  
+                  }
                 }
               }
               
