@@ -172,7 +172,7 @@ pipeline {
         )
       }
       // clean concourse pipeline
-      sh "fly dp -p wx-alert-smoke-test -n"
+      sh "fly -t main dp -p wx-alert-smoke-test -n"
       // clean workspace
       cleanWs()
     }
