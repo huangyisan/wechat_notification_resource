@@ -56,7 +56,6 @@ pipeline {
 
               stage('Update wx-alert-smoke-test-pipeline'){
                 dir('smoke-test') {
-                  set -e
                   sh "fly -t main login -c http://localhost:8080 -u test -p test"
                   sh "fly -t main sp -p wx-alert-smoke-test -c wx-alert-smoke-test-pipeline.yml -n"
                   sh "fly -t main unpause-pipeline -p wx-alert-smoke-test"
@@ -68,11 +67,11 @@ pipeline {
 
               stage('Get job latest test status'){
                 // succeeded
-                testStatus = """${sh(
+                isSucceeded = """${sh(
                 returnStdout: true, script: 'fly -t main jobs -p wx-alert-smoke-test  | grep "succeeded" | wc -l'
                 )}"""
 
-                if ("$testStatus" != 1) {
+                if ("${isSucceeded}" != 1) {
                   echo "Smoke test Faild"
                   error "Smoke test Faild"
                 } else {
