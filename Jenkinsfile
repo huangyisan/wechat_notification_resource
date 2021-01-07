@@ -29,7 +29,7 @@ pipeline {
       steps {
         script {
           docker.withRegistry("https://index.docker.io/v1/","docker-registry") {
-            def img = docker.build("dockerhuangyisan/wechat-notification-resource:${lastTag}",'.')
+            def img = docker.build("dockerhuangyisan/wechat-notification-resource:${lastTag}-autoci",'.')
           }
             sh 'docker images'
             // sh "docker build . -t test:${lastTag}"
