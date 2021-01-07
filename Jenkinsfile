@@ -94,8 +94,6 @@ pipeline {
   }
   post {
     always {
-      // clean workspace
-      cleanWs()
       script {
           def COMMIT_ID = ""
           COMMIT_ID = sh(returnStdout: true, script:'git log --pretty=format:"%h" -1')
@@ -169,6 +167,8 @@ pipeline {
             body: body
         )
       }
+      // clean workspace
+      cleanWs()
     }
   }
 }
