@@ -4,7 +4,7 @@ pipeline {
     branch="feature-auto-ci"
   }
   stages {
-    stage('Get Last Tag') {
+    stage('Get latest tag') {
         when {
           branch "${branch}"
         }
@@ -72,7 +72,7 @@ pipeline {
                 )}"""
                 isSucceeded = isSucceeded.trim()
                 echo "${isSucceeded}"
-                if (string("${isSucceeded}") != "1") {
+                if (string("$isSucceeded") != "1") {
                   echo "Smoke test Failed"
                   error "Smoke test Failed"
                 } else {
