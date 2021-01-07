@@ -77,7 +77,7 @@ pipeline {
                   )}"""
                   isSucceeded = isSucceeded.trim()
                   echo "$isSucceeded"
-                  if ("$isSucceeded" == "1") {
+                  if ("$isSucceeded" != "1") {
                     echo "Smoke test Failed"
                     error "Smoke test Failed"
                   } else {
