@@ -70,8 +70,9 @@ pipeline {
                 isSucceeded = """${sh(
                 returnStdout: true, script: 'fly -t main jobs -p wx-alert-smoke-test  | grep "succeeded" | wc -l'
                 )}"""
+                isSucceeded = isSucceeded.trim()
                 echo "${isSucceeded}"
-                if ("${isSucceeded}" != "1") {
+                if (string("${isSucceeded}") != "1") {
                   echo "Smoke test Failed"
                   error "Smoke test Failed"
                 } else {
