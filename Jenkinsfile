@@ -46,12 +46,14 @@ pipeline {
 
               stage('Render smoke test YAML file') {
                   dir('smoke-test') {
-                    script {
-                    def wxToken = credentials('wx-token-self')
-
                     
-                    sh "python3 wx-alert-smoke-test-pipeline-render.py ${wxToken} ${lastTag}"
+                    // def wxToken = credentials('wx-token-self')
+                    withCredentials([string(credentialsId: 'wx-token-self', variable: 'wxToken')]) {
+                         sh "python3 wx-alert-smoke-test-pipeline-render.py ${wxToken} ${lastTag}"
                     sh "ls"
+                      
+                    
+                    
                   }
                 }
               }
