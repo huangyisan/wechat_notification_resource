@@ -10,11 +10,10 @@ pipeline {
         }
       steps {
         script {
-          sh 'git pull'
           lastTag = """${sh(
           returnStdout: true, script: 'git describe --tags `git rev-list --tags --max-count=1`'
           )}"""
-          lastTag =  lastTag.trim()
+          lastTag = lastTag.trim()
           echo "${lastTag}"
         }
       }
