@@ -10,6 +10,7 @@ pipeline {
       }
       steps {
         script {
+          sh 'pwd'
           lastTag = """${sh(
           returnStdout: true, script: 'git describe --tags `git rev-list --tags --max-count=1`'
           )}"""
