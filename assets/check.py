@@ -2,7 +2,7 @@
 
 
 def _check():
-    asdfasdf
+    test error
     return '[]'
 
 
