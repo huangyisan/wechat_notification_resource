@@ -31,8 +31,21 @@ pipeline {
           // 
           docker.withRegistry("https://index.docker.io/v1/","docker-registry") {
             def img = docker.build("dockerhuangyisan/wechat-notification-resource:${lastTag}-autoci",'.')
-            stage('test image') {
-              sh 'docker ps'
+            stage('Test image') {
+
+              stage('Ensure concourse is up') {
+                webStatus = """${sh(
+                returnStdout: true, script: 'curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/'
+                )}"""
+
+                if ("$webStatus" == 200) {
+                  error "xx"
+                }
+              }
+              environment {
+                wxToken = credentials('wx-token-self')
+              }
+              echo "$wxToken"
             }
             // img.push();
           }
