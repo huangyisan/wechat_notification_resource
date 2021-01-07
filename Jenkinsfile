@@ -41,29 +41,49 @@ pipeline {
                 if ("$webStatus" == 200) {
                   echo "Concourse is not up"
                   error "Concourse is not up"
+                } else {
+                  echo "Concourse is up"
                 }
               }
 
               stage('Render smoke test YAML file') {
                   dir('smoke-test') {
-                    // def wxToken = credentials('wx-token-self')
                     withCredentials([string(credentialsId: 'wx-token-self', variable: 'wxToken')]) {
                          sh "python3 wx-alert-smoke-test-pipeline-render.py ${wxToken} ${lastTag}"
-                    // sh "ls"
                   }
                 }
               }
 
               stage('Update wx-alert-smoke-test-pipeline'){
                 dir('smoke-test') {
+                  set -e
                   sh "fly -t main login -c http://localhost:8080 -u test -p test"
                   sh "fly -t main sp -p wx-alert-smoke-test -c wx-alert-smoke-test-pipeline.yml -n"
                   sh "fly -t main unpause-pipeline -p wx-alert-smoke-test"
                   sh "fly -t main trigger-job -j wx-alert-smoke-test/smoke-test"
+                  // wait for running smoke test
+                  sh "sleep 25"
                 }
               }
+
+              stage('Get job latest test status'){
+                // succeeded
+                testStatus = """${sh(
+                returnStdout: true, script: 'fly -t main jobs -p wx-alert-smoke-test  | grep "succeeded" | wc -l'
+                )}"""
+
+                if ("$testStatus" != 1) {
+                  echo "Smoke test Faild"
+                  error "Smoke test Faild"
+                } else {
+                  echo "Smoke test Successful"
+                }
+              }
+
+              stage('Retag to latest') {
+                img.push('autoci-latest')
+              }
             }
-            // img.push();
           }
         }
       }

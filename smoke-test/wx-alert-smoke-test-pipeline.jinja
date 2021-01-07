@@ -18,5 +18,6 @@ jobs:
       secret: {{ secret }}
       msgtype: markdown
       level: success
-      content: This is a smoke test
+      content: This is a smoke test for TAG {{ tag }}
+    timeout: 20s
 
