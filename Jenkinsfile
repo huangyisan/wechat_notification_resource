@@ -38,7 +38,7 @@ pipeline {
                 returnStdout: true, script: 'curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/'
                 )}"""
 
-                if ("$webStatus" != 200) {
+                if ("$webStatus" == 200) {
                   echo "Concourse is not up"
                   error "Concourse is not up"
                 }
