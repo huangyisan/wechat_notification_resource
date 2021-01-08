@@ -1,5 +1,7 @@
 WeChat notification sending resource
 =================================
+[![Build Status](http://jenkins.kirakirazone.com:60080/buildStatus/icon?job=wechat_notification_resource%2Ffeature-auto-ci)](http://jenkins.kirakirazone.com:60080/job/wechat_notification_resource/job/feature-auto-ci/)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/huangyisan/wechat_notification_resource?style=flat)
 
 Sends message to [WeChat](https://www.wechat.com/)
 
