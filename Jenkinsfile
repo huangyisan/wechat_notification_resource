@@ -88,7 +88,7 @@ pipeline {
               }
 
               stage('Retag to latest') {
-                img.push('autoci-latest')
+                img.push('latest')
               }
             }
           }
