@@ -53,7 +53,17 @@ def payload_data(payload):
     msgtype = "markdown" if not source.get("msgtype") else source.get("msgtype")
     # success, failed, abort, error
     level = "success" if not source.get("level") else source.get("level")
-    content = "No content" if not source.get("content") else source.get("content")
+    content = "" if not source.get("content") else source.get("content")
+    content_file = source.get("content_file")
+    # combine content_file_text with content if content_file has content
+    if content_file:
+        f = open(content_file, 'r')
+        content_file_text = f.read()
+        f.close()
+        if content:
+            content += "\n" + content_file_text
+        else:
+            content = content_file_text
     payload_dict = {"url": url, "secret": secret, "msgtype": msgtype, "level": level,
                     "content": content}
     return payload_dict
