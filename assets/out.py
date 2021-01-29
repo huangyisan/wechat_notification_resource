@@ -1,10 +1,13 @@
 #!/usr/bin/python
-from common.common import eprint
+from __future__ import print_function
 import json
 import sys
 import requests
 import time
 import os
+
+def eprint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
 
 
 def get_time():
