@@ -1,4 +1,5 @@
 #!/usr/bin/python
+from common.common import eprint
 import json
 import sys
 import requests
@@ -56,14 +57,14 @@ def payload_data(payload):
     content = "" if not source.get("content") else source.get("content")
     content_file = source.get("content_file")
     # combine content_file_text with content if content_file has content
-    if content_file:
-        f = open(content_file, 'r')
+    if content_file and os.path.exists(os.path.join(put_path, content_file)):
+        f = open(os.path.join(put_path, content_file), 'r')
         content_file_text = f.read()
         f.close()
         if content:
-            content += "\n" + content_file_text
+            content += "\n" + content_file_text.strip('\n')
         else:
-            content = content_file_text
+            content = content_file_text.strip('\n')
     payload_dict = {"url": url, "secret": secret, "msgtype": msgtype, "level": level,
                     "content": content}
     return payload_dict
@@ -121,7 +122,7 @@ def post_message(url, secret, data):
     data = json.dumps(data)
     response = requests.request("POST", url, headers=headers, data=data, params=params)
     if response.status_code != 200:
-        print(response.json())
+        eprint(response.json())
 
 
 def get_timestamp():
@@ -154,4 +155,5 @@ def _out(stream):
     }
 
 if __name__ == "__main__":
+    put_path = '/tmp/build/put'
     print(json.dumps(_out(sys.stdin)))
